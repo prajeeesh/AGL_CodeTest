@@ -6,6 +6,6 @@ namespace Pet.Services.Interface
 {
     public interface IPetInfoService
     {
-       Task<List<OwnerListViewModel>> GetPetListGroupByOwnerGender();
+       Task<List<OwnerListViewModel>> GetPetListGroupByOwnerGender(Common.PetTypes.Type petType);
     }
 }

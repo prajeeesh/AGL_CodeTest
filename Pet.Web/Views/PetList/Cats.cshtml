@@ -1,0 +1,28 @@
+﻿@model List<Pet.Model.Web.OwnerListViewModel>
+@{
+    ViewBag.Title = "Pet List - Cats";
+}
+<div>
+    <div class="has-error">@ViewBag.Message</div>
+    @if (Model != null)
+    {
+        <div>
+            <h3>Cats List</h3>
+        </div>
+        foreach (var owner in Model)
+        {
+            <div class="roundcorner">
+                <h4>@owner.Gender</h4>
+                <ul>
+                    @if (owner.Pets != null)
+                    {
+                        foreach (var pet in owner.Pets)
+                        {
+                            <li>@pet.Name</li>
+                        }
+                    }
+                </ul>
+            </div>
+        }
+    }
+</div>

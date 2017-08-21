@@ -13,15 +13,19 @@ namespace Pet.Services
 {
     public class PetInfoService: IPetInfoService
     {
-       private string PetListingService { get; set; }
+       private string petListingService { get; set; }
        public PetInfoService()
         {
-            PetListingService = Constants.PetListingService;
+            petListingService = Constants.PetListingService;
         }
-       
-        public async Task<List<OwnerListViewModel>> GetPetListGroupByOwnerGender()
+        /// <summary>
+        /// Access the service endpoints and retrieves the list of pets based on the type passed as the parameter.
+        /// </summary>
+        /// <param name="petType">Pet Type Enum Refer Common.PetTypes.Type</param>
+        /// <returns>List of pets grouped based on the owners gender</returns>
+        public async Task<List<OwnerListViewModel>> GetPetListGroupByOwnerGender(Common.PetTypes.Type petType)
         {
-            string uri = Common.ServicesManager.GetClientUri(PetListingService);
+            string uri = Common.ServicesManager.GetClientUri(petListingService);
             try
             {
                 using (HttpClient httpClient = new HttpClient())
@@ -37,16 +41,23 @@ namespace Pet.Services
                                         {
                                             Gender = termGroup.Key,
                                             Pets = termGroup.Where(r => r.Pets.Any(t =>
-                                               t.Type == PetTypes.Type.Cat.ToString()))
-                                               .SelectMany(gr => gr.Pets).ToList()
+                                               t.Type == petType.ToString()))
+                                               .SelectMany(gr => gr.Pets)
+                                               .ToList()
+                                               .OrderBy(p => p.Name)
+                                               .ToList()                                              
                                         }
-                                        ).ToList();
+                                        )                                       
+                                       .ToList();
                     return petList;
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Error occured while accessing the service API"); 
+                //Log Exception 
+                Console.WriteLine(ex.Message);
+                throw new Exception("Error occured while accessing the service API");
+               
             }
         }
     }

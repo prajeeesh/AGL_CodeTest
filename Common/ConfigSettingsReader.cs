@@ -1,5 +1,4 @@
-﻿using System.Collections.Specialized;
-using System.Configuration;
+﻿using System.Configuration;
 
 namespace Common
 {
@@ -10,10 +9,10 @@ namespace Common
         /// </summary>
         /// <param name="configSectionKey"></param>
         /// <returns>config value</returns>
-        public static string GetConfigurationValues( string configSectionKey)
+        public static string GetConfigurationValues(string configSectionKey)
         {
             string configValue = ConfigurationManager.AppSettings[configSectionKey];
             return configValue;
         }
-        }
+    }
 }
